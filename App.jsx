@@ -81,21 +81,20 @@ const GlobalStyles = () => (
 );
 
 /* --- HELPER DE TEMA (COR DINÂMICA) --- */
-// Esta função retorna as classes de cor baseadas no nível
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
-    primary: isMaster ? 'purple' : 'cyan', // Cor principal (texto, icones)
-    secondary: isMaster ? 'fuchsia' : 'blue', // Cor secundária (gradientes)
+    primary: isMaster ? 'purple' : 'cyan', 
+    secondary: isMaster ? 'fuchsia' : 'blue',
     border: isMaster ? 'border-purple-500' : 'border-cyan-500',
     bgLight: isMaster ? 'bg-purple-500/10' : 'bg-cyan-500/10',
     text: isMaster ? 'text-purple-400' : 'text-cyan-400',
     textHover: isMaster ? 'group-hover:text-purple-300' : 'group-hover:text-cyan-300',
     button: isMaster ? 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20' : 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
     pulse: isMaster ? 'animate-pulse-glow-purple' : 'animate-pulse-glow-cyan',
-    iconColor: isMaster ? '#a855f7' : '#06b6d4', // Hex para SVGs
+    iconColor: isMaster ? '#a855f7' : '#06b6d4', 
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
-    checkColor: isMaster ? 'text-purple-400' : 'text-cyan-400',
+    logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
   };
 };
@@ -171,7 +170,7 @@ const NICHE_CORRECTIONS = {
   "dev": "Programação e Dev"
 };
 
-/* --- TEXTOS DE MENTORIA COMPLETA --- */
+/* --- TEXTOS DE MENTORIA --- */
 const MISSIONS_DATA = {
   iniciante: {
     fase1: [
@@ -264,8 +263,6 @@ const StickyBuyButton = ({ theme }) => {
       href="https://nexusdigital.net.br" 
       target="_blank" 
       rel="noopener noreferrer"
-      // Usamos uma cor fixa aqui ou a do tema? Geralmente CTA de compra é bom manter consistente (verde ou a cor do tema)
-      // Vou usar a cor do tema para consistência visual pedida
       className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-${theme.primary}-500 hover:bg-${theme.primary}-400 text-black px-6 py-4 rounded-full font-black shadow-[0_0_25px_rgba(0,0,0,0.5)] ${theme.pulse} transition-all duration-1000 ease-in-out group md:bottom-10 md:right-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}
     >
       <div className="bg-black/10 p-2 rounded-full">
@@ -279,7 +276,7 @@ const StickyBuyButton = ({ theme }) => {
   );
 };
 
-/* --- COMPONENTE: CTA INTERMEDIÁRIA (DIA 15) --- */
+/* --- COMPONENTE: CTA INTERMEDIÁRIA (PERSUASIVA) --- */
 const MidContentCTA = ({ theme }) => (
   <div className={`my-12 relative overflow-hidden rounded-2xl border ${theme.border}/30 bg-gradient-to-r from-slate-900 via-${theme.primary}-950/20 to-slate-900 shadow-2xl`}>
     <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -288,27 +285,27 @@ const MidContentCTA = ({ theme }) => (
     <div className="p-8 md:p-10 relative z-10 flex flex-col md:flex-row items-center gap-8 justify-between">
       <div className="flex-1">
         <div className={`inline-block px-3 py-1 bg-${theme.primary}-500/20 text-${theme.primary}-400 text-xs font-black uppercase tracking-widest rounded mb-4`}>
-          Oportunidade de Aceleração
+          Atenção: Checkpoint Crítico
         </div>
-        <h3 className="text-3xl font-black text-white mb-3">VOCÊ SOBREVIVEU AOS PRIMEIROS 15 DIAS</h3>
+        <h3 className="text-3xl font-black text-white mb-3 leading-tight">VOCÊ ESTÁ CAVANDO COM UMA COLHER</h3>
         <p className="text-slate-300 text-lg leading-relaxed">
-          95% dos iniciantes desistem antes de chegar aqui. Você já provou que tem disciplina. 
+          Você sobreviveu até aqui na raça. Parabéns. Mas a diferença entre o amador e o profissional não é o esforço, é a <strong>ferramenta</strong>.
           <br/><br/>
-          Se você sente que seus resultados poderiam ser <strong>10x maiores</strong> se tivesse acesso às ferramentas que a Elite esconde, não espere o Dia 30.
+          Enquanto você gasta horas criando funis, a Elite usa nossos scripts validados. O <strong>Curso Nexus Black</strong> não é aula, é o código-fonte para escalar sem sangrar. Pare de jogar no modo difícil.
         </p>
       </div>
       <a 
         href="https://nexusdigital.net.br" 
         target="_blank"
-        className={`shrink-0 bg-${theme.primary}-500 hover:bg-white text-black font-black text-lg px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all transform hover:scale-105 flex items-center gap-3`}
+        className={`shrink-0 bg-${theme.primary}-500 hover:bg-white text-black font-black text-lg px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all transform hover:scale-105 flex items-center gap-3 whitespace-nowrap`}
       >
-        FURAR A FILA AGORA <Unlock size={20} strokeWidth={3} />
+        ATIVAR MODO AUTOMÁTICO <Zap size={20} strokeWidth={3} fill="currentColor" />
       </a>
     </div>
   </div>
 );
 
-/* --- COMPONENTES VISUAIS PADRÃO (Adaptados ao Tema) --- */
+/* --- COMPONENTES VISUAIS PADRÃO (LOGO RESTAURADA) --- */
 const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
   const [error, setError] = useState(false);
   // Default to cyan theme for login screen or if theme not passed
@@ -324,16 +321,22 @@ const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
           onError={() => setError(true)}
         />
       ) : (
-        <div className={`flex flex-col justify-center items-center bg-${t.primary}-950/30 p-2 rounded-lg border border-${t.primary}-500/30`}>
-            <BrainCircuit className={t.text} size={24}/>
-            {showText && <span className="font-black text-white text-xs tracking-tighter uppercase">Nexus</span>}
+        <div className="flex items-center">
+            {/* LOGO 'N' ESTILIZADA SVG */}
+            <div className={`relative w-12 h-12 flex items-center justify-center bg-gradient-to-br from-${t.primary}-600 to-${t.primary}-800 rounded-lg shadow-lg border border-white/10 mr-3`}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M9 9V15L15 9V15" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </div>
+            
+            {showText && (
+              <div className="flex flex-col justify-center">
+                <span className="font-black text-white text-3xl tracking-tighter leading-none drop-shadow-lg">NEXUS</span>
+                <span className={`text-[10px] font-bold ${t.text} tracking-[0.4em] leading-none mt-1 drop-shadow-md uppercase`}>Digital</span>
+              </div>
+            )}
         </div>
-      )}
-      {(!error && showText) && (
-          <div className="hidden md:flex flex-col justify-center ml-3">
-            <span className="font-black text-white text-2xl tracking-tighter leading-none drop-shadow-lg">NEXUS</span>
-            <span className={`text-[9px] font-bold ${t.text} tracking-[0.4em] leading-none mt-1 drop-shadow-md uppercase`}>Digital</span>
-          </div>
       )}
     </div>
   );
@@ -648,7 +651,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.5.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.6.0 - Pro</span>
                 </div>
             </div>
 
@@ -1079,7 +1082,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.5</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.6</p>
         </footer>
 
       </main>
