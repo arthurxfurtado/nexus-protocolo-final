@@ -80,7 +80,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND) --- */
+/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND IMERSIVO) --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -96,10 +96,10 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // NOVO: Background suave dependendo do nível
+    // BACKGROUNDS DO DASHBOARD (Mantidos conforme pedido anterior)
     appBg: isMaster 
-      ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950' 
-      : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-slate-950 to-slate-950'
+      ? 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-fuchsia-900/30 via-purple-950/50 to-slate-950' 
+      : 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-cyan-800/30 via-blue-950/50 to-slate-950'
   };
 };
 
@@ -510,8 +510,14 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
+    // ESTRUTURA REVISADA PARA "ENCONTRO DE CORES"
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-900/20 via-slate-950 to-slate-950 pointer-events-none"></div>
+      {/* BACKGROUND COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA) */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-20%] w-[80%] h-[80%] rounded-full bg-cyan-600/10 blur-[120px] animate-pulse-glow-cyan" />
+          <div className="absolute bottom-[-10%] right-[-20%] w-[80%] h-[80%] rounded-full bg-purple-600/10 blur-[120px] animate-pulse-glow-purple" />
+      </div>
+
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
         
@@ -626,7 +632,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    <div className={`min-h-screen ${theme.appBg} flex text-slate-200 font-sans selection:bg-cyan-500/30`}>
+    <div className={`min-h-screen ${theme.appBg} flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700`}>
       <GlobalStyles />
       <StickyBuyButton theme={theme} /> {/* BOTÃO FLUTUANTE SEMPRE ATIVO */}
       
@@ -655,7 +661,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.7.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.9.0 - Pro</span>
                 </div>
             </div>
 
@@ -1086,7 +1092,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.7</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.9</p>
         </footer>
 
       </main>
