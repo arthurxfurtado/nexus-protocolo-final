@@ -36,27 +36,22 @@ import {
   RefreshCw, 
   Server, 
   BookOpen, 
-  ShoppingCart, 
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (CSS PURO PARA BACKGROUNDS SEM DEGRADÊ LONGO) --- */
+/* --- ESTILOS GLOBAIS (ANIMAÇÕES E BACKGROUNDS FIXOS) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* CORREÇÃO DE BACKGROUND:
-       Substituído radial-gradient por linear-gradient curto.
-       Isso mantém a intensidade no topo, mas remove o "espalhamento" suave.
-    */
+    /* BACKGROUNDS ROBUSTOS PARA MOBILE E PC */
     .bg-nexus-blue {
-      /* Azul intenso no topo, terminando rapidamente em preto (35% da tela) */
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 35%);
-      background-attachment: fixed; /* Garante que fique fixo no mobile */
+      background: radial-gradient(100% 60% at 50% 0%, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 100%);
+      background-attachment: fixed; /* Essencial para mobile */
     }
     
     .bg-nexus-purple {
-      /* Roxo intenso no topo, terminando rapidamente em preto (40% da tela - um pouco mais longo que o azul) */
-      background: linear-gradient(180deg, rgba(147, 51, 234, 0.5) 0%, rgba(2, 6, 23, 1) 45%);
-      background-attachment: fixed;
+      /* Roxo mais forte e descendo mais (até 75-80% da tela visual) */
+      background: radial-gradient(130% 75% at 50% 0%, rgba(147, 51, 234, 0.45) 0%, rgba(168, 85, 247, 0.15) 45%, rgba(2, 6, 23, 1) 100%);
+      background-attachment: fixed; /* Essencial para mobile */
     }
 
     @keyframes fadeIn {
@@ -112,7 +107,7 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // Usa as novas classes CSS sem o degradê longo
+    // Usamos classes CSS puras para garantir compatibilidade mobile
     bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
   };
 };
@@ -618,7 +613,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
 
   return (
     // USANDO A CLASSE CSS PURA PARA O BACKGROUND (FIXED)
-    <div className={`min-h-screen ${theme.bgClass} bg-fixed bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
+    <div className={`min-h-screen ${theme.bgClass} bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
       <GlobalStyles />
       
       {/* SIDEBAR DESKTOP */}
