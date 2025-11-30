@@ -40,9 +40,19 @@ import {
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (ANIMAÇÕES) --- */
+/* --- ESTILOS GLOBAIS (ANIMAÇÕES E BACKGROUNDS FIXOS) --- */
 const GlobalStyles = () => (
   <style>{`
+    /* BACKGROUNDS ROBUSTOS PARA MOBILE E PC */
+    .bg-nexus-blue {
+      background: radial-gradient(100% 60% at 50% 0%, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 100%);
+    }
+    
+    .bg-nexus-purple {
+      /* Roxo mais forte e descendo mais (até 75-80% da tela visual) */
+      background: radial-gradient(130% 75% at 50% 0%, rgba(147, 51, 234, 0.45) 0%, rgba(168, 85, 247, 0.15) 45%, rgba(2, 6, 23, 1) 100%);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -80,7 +90,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND SUAVE) --- */
+/* --- HELPER DE TEMA --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -96,16 +106,8 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // BACKGROUNDS SUAVIZADOS
-    // Mestre (Roxo): Reduzi a opacidade drasticamente (de /50 para /20 e /10) para ficar suave.
-    appBg: isMaster 
-      ? 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950' 
-      : 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-cyan-800/30 via-blue-950/50 to-slate-950',
-    
-    // Gradiente Fixo para Mobile (Também suavizado)
-    bgGradient: isMaster 
-      ? 'from-purple-900/20 via-slate-950 to-slate-950' 
-      : 'from-cyan-800/40 via-blue-950 to-slate-950'
+    // Agora usamos classes CSS puras para garantir compatibilidade mobile
+    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
   };
 };
 
@@ -484,7 +486,7 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ESTRUTURA REVISADA PARA "ENCONTRO DE CORES"
+    // ESTRUTURA REVISADA PARA "ENCONTRO DE CORES" E COMPATIBILIDADE MOBILE
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* BACKGROUND COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -609,11 +611,9 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    <div className={`min-h-screen ${theme.appBg} flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
+    // USANDO A CLASSE CSS PURA PARA O BACKGROUND (FIXED)
+    <div className={`min-h-screen ${theme.bgClass} bg-fixed bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
       <GlobalStyles />
-      
-      {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
-      <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
       
       {/* SIDEBAR DESKTOP */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
@@ -673,7 +673,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         </div>
       )}
 
-      {/* MAIN CONTENT - Z-10 PARA FICAR ACIMA DO BACKGROUND FIXO */}
+      {/* MAIN CONTENT - Z-10 PARA FICAR ACIMA DO BACKGROUND */}
       <main className="flex-1 md:ml-80 p-6 md:p-16 pt-32 md:pt-16 max-w-[1600px] mx-auto w-full relative z-10">
         
         {/* HEADER STATS */}
