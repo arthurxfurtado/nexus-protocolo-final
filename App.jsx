@@ -39,53 +39,29 @@ import {
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (ANIMAÇÕES E BACKGROUNDS FIXOS) --- */
+/* --- ESTILOS GLOBAIS (ANIMAÇÕES) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* BACKGROUNDS ROBUSTOS PARA MOBILE E PC */
-    
-    /* Modo Iniciante: Azul no topo, descendo reto */
-    .bg-nexus-blue {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 45%);
-      background-attachment: fixed;
-    }
-    
-    /* Modo Mestre: Roxo no topo, descendo reto */
-    .bg-nexus-purple {
-      background: linear-gradient(180deg, rgba(147, 51, 234, 0.45) 0%, rgba(2, 6, 23, 1) 55%);
-      background-attachment: fixed;
-    }
-
-    /* CORREÇÃO ONBOARDING: MISTURA SUAVE (DIAGONAL)
-       Azul (topo esq) -> Preto (meio) -> Roxo (baixo dir)
-       Sem cortes bruscos.
-    */
-    .bg-nexus-split {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 50%, rgba(147, 51, 234, 0.4) 100%);
-      background-attachment: fixed;
-      background-size: cover;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes pulse-glow-cyan {
-      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); }
-      50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.8); transform: scale(1.05); }
+      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); opacity: 0.6; }
+      50% { box-shadow: 0 0 35px rgba(6, 182, 212, 0.9); transform: scale(1.1); opacity: 0.8; }
     }
     @keyframes pulse-glow-purple {
-      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); }
-      50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.8); transform: scale(1.05); }
+      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); opacity: 0.6; }
+      50% { box-shadow: 0 0 35px rgba(168, 85, 247, 0.9); transform: scale(1.1); opacity: 0.8; }
     }
     .animate-fadeIn {
       animation: fadeIn 0.5s ease-out forwards;
     }
     .animate-pulse-glow-cyan {
-      animation: pulse-glow-cyan 2s infinite;
+      animation: pulse-glow-cyan 3s infinite;
     }
     .animate-pulse-glow-purple {
-      animation: pulse-glow-purple 2s infinite;
+      animation: pulse-glow-purple 3s infinite;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 8px;
@@ -103,7 +79,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- HELPER DE TEMA --- */
+/* --- HELPER DE TEMA (MANTENDO O ORIGINAL) --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -119,7 +95,10 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
+    // MANTENDO O GRADIENTE ORIGINAL DO DASHBOARD
+    bgGradient: isMaster 
+      ? 'from-fuchsia-900/40 via-purple-950 to-slate-950' 
+      : 'from-cyan-800/40 via-blue-950 to-slate-950'
   };
 };
 
@@ -313,7 +292,6 @@ const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
         />
       ) : (
         <div className="flex items-center">
-            {/* LOGO 'N' ESTILIZADA SVG */}
             <div className={`relative w-12 h-12 flex items-center justify-center bg-gradient-to-br from-${t.primary}-600 to-${t.primary}-800 rounded-lg shadow-lg border border-white/10 mr-3`}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -497,8 +475,8 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO
-    <div className="min-h-screen bg-nexus-split bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) MISTURADO NO MEIO
+    <div className="min-h-screen bg-[linear-gradient(135deg,_rgba(6,182,212,0.3)_0%,_rgba(2,6,23,1)_50%,_rgba(147,51,234,0.3)_100%)] bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
         
@@ -1076,7 +1054,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.13</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.14</p>
         </footer>
 
       </main>
