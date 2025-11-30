@@ -80,7 +80,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- HELPER DE TEMA (COR DINÂMICA) --- */
+/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND) --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -95,7 +95,11 @@ const useTheme = (level) => {
     iconColor: isMaster ? '#a855f7' : '#06b6d4', 
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
-    activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+    activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
+    // NOVO: Background suave dependendo do nível
+    appBg: isMaster 
+      ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950' 
+      : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-slate-950 to-slate-950'
   };
 };
 
@@ -622,7 +626,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 flex text-slate-200 font-sans selection:bg-cyan-500/30">
+    <div className={`min-h-screen ${theme.appBg} flex text-slate-200 font-sans selection:bg-cyan-500/30`}>
       <GlobalStyles />
       <StickyBuyButton theme={theme} /> {/* BOTÃO FLUTUANTE SEMPRE ATIVO */}
       
@@ -651,7 +655,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.6.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.7.0 - Pro</span>
                 </div>
             </div>
 
@@ -1082,7 +1086,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.6</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.7</p>
         </footer>
 
       </main>
