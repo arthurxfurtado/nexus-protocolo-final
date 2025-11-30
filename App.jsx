@@ -48,21 +48,21 @@ const GlobalStyles = () => (
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes pulse-glow-cyan {
-      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); opacity: 0.6; }
-      50% { box-shadow: 0 0 35px rgba(6, 182, 212, 0.9); transform: scale(1.1); opacity: 0.8; }
+      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.8); transform: scale(1.05); }
     }
     @keyframes pulse-glow-purple {
-      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); opacity: 0.6; }
-      50% { box-shadow: 0 0 35px rgba(168, 85, 247, 0.9); transform: scale(1.1); opacity: 0.8; }
+      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.8); transform: scale(1.05); }
     }
     .animate-fadeIn {
       animation: fadeIn 0.5s ease-out forwards;
     }
     .animate-pulse-glow-cyan {
-      animation: pulse-glow-cyan 3s infinite;
+      animation: pulse-glow-cyan 2s infinite;
     }
     .animate-pulse-glow-purple {
-      animation: pulse-glow-purple 3s infinite;
+      animation: pulse-glow-purple 2s infinite;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 8px;
@@ -80,7 +80,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND FIXO) --- */
+/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND SUAVE) --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -96,9 +96,15 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // Background mais intenso e "lavado" para mobile, usando fixed positioning no componente
+    // BACKGROUNDS SUAVIZADOS
+    // Mestre (Roxo): Reduzi a opacidade drasticamente (de /50 para /20 e /10) para ficar suave.
+    appBg: isMaster 
+      ? 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-950 to-slate-950' 
+      : 'bg-[radial-gradient(circle_at_top_center,_var(--tw-gradient-stops))] from-cyan-800/30 via-blue-950/50 to-slate-950',
+    
+    // Gradiente Fixo para Mobile (Também suavizado)
     bgGradient: isMaster 
-      ? 'from-fuchsia-900/40 via-purple-950 to-slate-950' 
+      ? 'from-purple-900/20 via-slate-950 to-slate-950' 
       : 'from-cyan-800/40 via-blue-950 to-slate-950'
   };
 };
@@ -248,38 +254,6 @@ const MISSIONS_DATA = {
   }
 };
 
-/* --- NOVO COMPONENTE: BOTÃO FLUTUANTE (COM TIMER E TEXTO AJUSTADO) --- */
-const StickyBuyButton = ({ theme }) => {
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    // Configura o timer para 3 segundos (3000ms)
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
-
-    // Limpa o timer se o componente for desmontado
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <a 
-      href="https://nexusdigital.net.br" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-${theme.primary}-500 hover:bg-${theme.primary}-400 text-black px-6 py-4 rounded-full font-black shadow-[0_0_25px_rgba(0,0,0,0.5)] ${theme.pulse} transition-all duration-1000 ease-in-out group md:bottom-10 md:right-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}
-    >
-      <div className="bg-black/10 p-2 rounded-full">
-        <ShoppingCart size={24} className="text-black group-hover:text-white transition-colors"/>
-      </div>
-      <div className="flex flex-col items-start leading-none">
-        <span className="text-[10px] uppercase font-bold opacity-80 mb-0.5">Oportunidade</span>
-        <span className="text-lg tracking-tight">LIBERAR GUIAS E CURSOS</span>
-      </div>
-    </a>
-  );
-};
-
 /* --- COMPONENTE: CTA INTERMEDIÁRIA (PERSUASIVA) --- */
 const MidContentCTA = ({ theme }) => (
   <div className={`my-12 relative overflow-hidden rounded-2xl border ${theme.border}/30 bg-gradient-to-r from-slate-900 via-${theme.primary}-950/20 to-slate-900 shadow-2xl`}>
@@ -312,6 +286,7 @@ const MidContentCTA = ({ theme }) => (
 /* --- COMPONENTES VISUAIS PADRÃO (LOGO RESTAURADA) --- */
 const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
   const [error, setError] = useState(false);
+  // Default to cyan theme for login screen or if theme not passed
   const t = theme || { primary: 'cyan', text: 'text-cyan-400' }; 
 
   return (
@@ -509,9 +484,9 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ONBOARDING COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA)
-    // FIX MOBILE: Aumentei drasticamente o tamanho das luzes para cobrir a tela no celular
+    // ESTRUTURA REVISADA PARA "ENCONTRO DE CORES"
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* BACKGROUND COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
           {/* LUZ CYAN (ESQUERDA SUPERIOR) */}
           <div className="absolute top-[-20%] left-[-50%] md:top-[-10%] md:left-[-20%] w-[200%] md:w-[80%] h-[50%] md:h-[80%] rounded-full bg-cyan-600/20 blur-[100px] md:blur-[120px] animate-pulse-glow-cyan" />
@@ -634,15 +609,13 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative">
+    <div className={`min-h-screen ${theme.appBg} flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
       <GlobalStyles />
       
       {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
       <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
-
-      <StickyBuyButton theme={theme} /> 
       
-      {/* SIDEBAR DESKTOP (Z-50 PARA FICAR ACIMA DO BACKGROUND) */}
+      {/* SIDEBAR DESKTOP */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
         <div className="mb-14 mt-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
             <NexusLogo className="h-32" theme={theme} />
@@ -667,7 +640,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.10.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.11.0 - Pro</span>
                 </div>
             </div>
 
@@ -1098,7 +1071,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.10</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.11</p>
         </footer>
 
       </main>
