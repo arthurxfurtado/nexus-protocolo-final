@@ -40,17 +40,23 @@ import {
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (ANIMAÇÕES E BACKGROUNDS FIXOS) --- */
+/* --- ESTILOS GLOBAIS (CSS PURO PARA BACKGROUNDS SEM DEGRADÊ LONGO) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* BACKGROUNDS ROBUSTOS PARA MOBILE E PC */
+    /* CORREÇÃO DE BACKGROUND:
+       Substituído radial-gradient por linear-gradient curto.
+       Isso mantém a intensidade no topo, mas remove o "espalhamento" suave.
+    */
     .bg-nexus-blue {
-      background: radial-gradient(100% 60% at 50% 0%, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 100%);
+      /* Azul intenso no topo, terminando rapidamente em preto (35% da tela) */
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 35%);
+      background-attachment: fixed; /* Garante que fique fixo no mobile */
     }
     
     .bg-nexus-purple {
-      /* Roxo mais forte e descendo mais (até 75-80% da tela visual) */
-      background: radial-gradient(130% 75% at 50% 0%, rgba(147, 51, 234, 0.45) 0%, rgba(168, 85, 247, 0.15) 45%, rgba(2, 6, 23, 1) 100%);
+      /* Roxo intenso no topo, terminando rapidamente em preto (40% da tela - um pouco mais longo que o azul) */
+      background: linear-gradient(180deg, rgba(147, 51, 234, 0.5) 0%, rgba(2, 6, 23, 1) 45%);
+      background-attachment: fixed;
     }
 
     @keyframes fadeIn {
@@ -106,7 +112,7 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // Agora usamos classes CSS puras para garantir compatibilidade mobile
+    // Usa as novas classes CSS sem o degradê longo
     bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
   };
 };
@@ -640,7 +646,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.11.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.12.0 - Pro</span>
                 </div>
             </div>
 
@@ -1071,7 +1077,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.11</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.12</p>
         </footer>
 
       </main>
