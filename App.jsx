@@ -54,6 +54,12 @@ const GlobalStyles = () => (
       background-attachment: fixed; /* Essencial para mobile */
     }
 
+    /* Onboarding: Divisão diagonal suave Azul/Roxo */
+    .bg-nexus-split {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.3) 100%);
+      background-attachment: fixed;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -108,7 +114,11 @@ const useTheme = (level) => {
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
     // Usamos classes CSS puras para garantir compatibilidade mobile
-    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
+    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue',
+    // Mantendo o gradiente do seu código original
+    bgGradient: isMaster 
+      ? 'from-fuchsia-900/40 via-purple-950 to-slate-950' 
+      : 'from-cyan-800/40 via-blue-950 to-slate-950'
   };
 };
 
@@ -161,7 +171,7 @@ const TOOLKIT_DATA = [
       { name: 'Cakto', desc: 'Design limpo e foco em conversão.', url: 'https://cakto.com.br', tag: 'Simples', color: 'text-pink-400' },
       { name: 'Kirvano', desc: 'Taxas agressivas e boa aprovação.', url: 'https://kirvano.com', tag: 'Nova', color: 'text-purple-400' },
       { name: 'Hotmart', desc: 'Líder global, robusta para afiliados.', url: 'https://hotmart.com', tag: 'Global', color: 'text-orange-500' },
-      { name: 'Eduzz', desc: 'Integração sólida para infoprodutos.', url: 'https://eduzz.com', tag: 'Clássica', color: 'text-yellow-500' },
+      { name: 'Eduzz', desc: 'Integração sólida para infoprodutos.', url: 'https://eduzz.com', tag: 'Clássica', color: 'text-yellow-500' }, 
     ] 
   }
 ];
@@ -289,7 +299,6 @@ const MidContentCTA = ({ theme }) => (
 /* --- COMPONENTES VISUAIS PADRÃO (LOGO RESTAURADA) --- */
 const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
   const [error, setError] = useState(false);
-  // Default to cyan theme for login screen or if theme not passed
   const t = theme || { primary: 'cyan', text: 'text-cyan-400' }; 
 
   return (
@@ -487,17 +496,8 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ESTRUTURA REVISADA PARA "ENCONTRO DE CORES" E COMPATIBILIDADE MOBILE
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* BACKGROUND COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-          {/* LUZ CYAN (ESQUERDA SUPERIOR) */}
-          <div className="absolute top-[-20%] left-[-50%] md:top-[-10%] md:left-[-20%] w-[200%] md:w-[80%] h-[50%] md:h-[80%] rounded-full bg-cyan-600/20 blur-[100px] md:blur-[120px] animate-pulse-glow-cyan" />
-          
-          {/* LUZ ROXA (DIREITA INFERIOR) */}
-          <div className="absolute bottom-[-20%] right-[-50%] md:bottom-[-10%] md:right-[-20%] w-[200%] md:w-[80%] h-[50%] md:h-[80%] rounded-full bg-purple-600/20 blur-[100px] md:blur-[120px] animate-pulse-glow-purple" />
-      </div>
-
+    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO
+    <div className="min-h-screen bg-nexus-split bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
         
@@ -616,6 +616,9 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
     <div className={`min-h-screen ${theme.bgClass} bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
       <GlobalStyles />
       
+      {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
+      <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
+      
       {/* SIDEBAR DESKTOP */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
         <div className="mb-14 mt-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
@@ -641,7 +644,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.12.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.13.0 - Pro</span>
                 </div>
             </div>
 
@@ -1072,7 +1075,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.12</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.13</p>
         </footer>
 
       </main>
