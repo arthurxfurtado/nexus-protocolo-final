@@ -43,21 +43,27 @@ import {
 const GlobalStyles = () => (
   <style>{`
     /* BACKGROUNDS ROBUSTOS PARA MOBILE E PC */
+    
+    /* Modo Iniciante: Azul no topo, descendo reto */
     .bg-nexus-blue {
-      background: radial-gradient(100% 60% at 50% 0%, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 100%);
-      background-attachment: fixed; /* Essencial para mobile */
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 45%);
+      background-attachment: fixed;
     }
     
+    /* Modo Mestre: Roxo no topo, descendo reto */
     .bg-nexus-purple {
-      /* Roxo mais forte e descendo mais (até 75-80% da tela visual) */
-      background: radial-gradient(130% 75% at 50% 0%, rgba(147, 51, 234, 0.45) 0%, rgba(168, 85, 247, 0.15) 45%, rgba(2, 6, 23, 1) 100%);
-      background-attachment: fixed; /* Essencial para mobile */
+      background: linear-gradient(180deg, rgba(147, 51, 234, 0.45) 0%, rgba(2, 6, 23, 1) 55%);
+      background-attachment: fixed;
     }
 
-    /* Onboarding: Divisão diagonal suave Azul/Roxo */
+    /* CORREÇÃO ONBOARDING: MISTURA SUAVE (DIAGONAL)
+       Azul (topo esq) -> Preto (meio) -> Roxo (baixo dir)
+       Sem cortes bruscos.
+    */
     .bg-nexus-split {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.3) 100%);
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 50%, rgba(147, 51, 234, 0.4) 100%);
       background-attachment: fixed;
+      background-size: cover;
     }
 
     @keyframes fadeIn {
@@ -113,12 +119,7 @@ const useTheme = (level) => {
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // Usamos classes CSS puras para garantir compatibilidade mobile
-    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue',
-    // Mantendo o gradiente do seu código original
-    bgGradient: isMaster 
-      ? 'from-fuchsia-900/40 via-purple-950 to-slate-950' 
-      : 'from-cyan-800/40 via-blue-950 to-slate-950'
+    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
   };
 };
 
@@ -644,7 +645,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.13.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.14.0 - Pro</span>
                 </div>
             </div>
 
