@@ -8,36 +8,36 @@ import {
   Target, 
   ChevronRight,
   ExternalLink,
-  Zap,
-  CheckCircle2,
-  Menu,
-  X,
-  Trophy,
-  ArrowUpRight,
-  Sparkles,
-  Award,
-  BarChart,
-  ShieldCheck,
-  TrendingUp,
-  CalendarDays,
-  RotateCcw,
-  Lock,
-  Wand2,
-  AlertTriangle,
-  ChevronDown,
-  MessageCircle,
-  Instagram,
-  HelpCircle,
-  Crown,
-  LogOut,
-  GraduationCap,
-  CreditCard,
-  Mail,
-  RefreshCw,
-  Server,
-  BookOpen,
-  ShoppingCart,
-  Unlock
+  Zap, 
+  CheckCircle2, 
+  Menu, 
+  X, 
+  Trophy, 
+  ArrowUpRight, 
+  Sparkles, 
+  Award, 
+  BarChart, 
+  ShieldCheck, 
+  TrendingUp, 
+  CalendarDays, 
+  RotateCcw, 
+  Lock, 
+  Wand2, 
+  AlertTriangle, 
+  ChevronDown, 
+  MessageCircle, 
+  Instagram, 
+  HelpCircle, 
+  Crown, 
+  LogOut, 
+  GraduationCap, 
+  CreditCard, 
+  Mail, 
+  RefreshCw, 
+  Server, 
+  BookOpen, 
+  ShoppingCart, 
+  Unlock 
 } from 'lucide-react';
 
 /* --- ESTILOS GLOBAIS (ANIMAÇÕES) --- */
@@ -73,7 +73,7 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-/* --- DADOS DO TOOLKIT (ATUALIZADO COM MANYCHAT) --- */
+/* --- DADOS DO TOOLKIT (ARSENAL NEXUS) --- */
 const TOOLKIT_DATA = [
   { 
     id: 'creation', 
@@ -107,7 +107,7 @@ const TOOLKIT_DATA = [
     description: 'Ferramentas para dominar a atenção e atendimento.', 
     tools: [ 
       { name: 'Converza.io', desc: 'Automação de respostas e mensagens.', url: 'https://converza.io', tag: 'Automação', color: 'text-green-500' },
-      { name: 'Manychat', desc: 'Líder global em automação de DM (Instagram).', url: 'https://manychat.com', tag: 'Chatbot', color: 'text-blue-500' }, // ADICIONADO AQUI
+      { name: 'Manychat', desc: 'Líder global em automação de DM (Instagram).', url: 'https://manychat.com', tag: 'Chatbot', color: 'text-blue-500' },
       { name: 'Opus Clip', desc: 'Transforme 1 vídeo longo em 10 curtos.', url: 'https://www.opus.pro', tag: 'Viral', color: 'text-yellow-400' }, 
       { name: 'CapCut', desc: 'O editor mobile padrão ouro.', url: 'https://www.capcut.com', tag: 'Editor', color: 'text-white' }, 
     ] 
@@ -218,25 +218,39 @@ const MISSIONS_DATA = {
   }
 };
 
-/* --- NOVO COMPONENTE: BOTÃO FLUTUANTE (STICKY BUTTON) --- */
-const StickyBuyButton = () => (
-  <a 
-    href="https://nexusdigital.net.br" 
-    target="_blank" 
-    rel="noopener noreferrer"
-    className="fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-cyan-500 hover:bg-cyan-400 text-black px-6 py-4 rounded-full font-black shadow-[0_0_25px_rgba(6,182,212,0.6)] animate-pulse-glow transition-all hover:scale-105 group md:bottom-10 md:right-10"
-  >
-    <div className="bg-black/10 p-2 rounded-full">
-      <ShoppingCart size={24} className="text-black group-hover:text-white transition-colors"/>
-    </div>
-    <div className="flex flex-col items-start leading-none">
-      <span className="text-[10px] uppercase font-bold opacity-80 mb-0.5">Acesso Restrito</span>
-      <span className="text-lg tracking-tight">LIBERAR NEXUS BLACK</span>
-    </div>
-  </a>
-);
+/* --- NOVO COMPONENTE: BOTÃO FLUTUANTE (COM TIMER) --- */
+const StickyBuyButton = () => {
+  const [isVisible, setIsVisible] = useState(true);
 
-/* --- NOVO COMPONENTE: CTA INTERMEDIÁRIA (DIA 15) --- */
+  useEffect(() => {
+    // Configura o timer para 3 segundos (3000ms)
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
+
+    // Limpa o timer se o componente for desmontado
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <a 
+      href="https://nexusdigital.net.br" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-cyan-500 hover:bg-cyan-400 text-black px-6 py-4 rounded-full font-black shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-all duration-1000 ease-in-out group md:bottom-10 md:right-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}
+    >
+      <div className="bg-black/10 p-2 rounded-full">
+        <ShoppingCart size={24} className="text-black group-hover:text-white transition-colors"/>
+      </div>
+      <div className="flex flex-col items-start leading-none">
+        <span className="text-[10px] uppercase font-bold opacity-80 mb-0.5">Acesso Restrito</span>
+        <span className="text-lg tracking-tight">LIBERAR GUIAS E CURSOS</span>
+      </div>
+    </a>
+  );
+};
+
+/* --- COMPONENTE: CTA INTERMEDIÁRIA (DIA 15) --- */
 const MidContentCTA = () => (
   <div className="my-12 relative overflow-hidden rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-slate-900 via-cyan-950/20 to-slate-900 shadow-2xl">
     <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -594,7 +608,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.2.1 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.4.0 - Pro</span>
                 </div>
             </div>
 
@@ -735,6 +749,45 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                         </div>
                    </GlassCard>
                </div>
+
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                   <GlassCard className="flex flex-col justify-center items-center py-20 text-center relative overflow-hidden group">
+                       <div className="w-56 h-56 rounded-full border-[12px] border-slate-800 flex items-center justify-center relative mb-10 group-hover:scale-105 transition-transform duration-500">
+                           <span className="text-6xl font-black text-white">{progressPercent}%</span>
+                           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                               <circle cx="50" cy="50" r="44" fill="none" stroke="transparent" strokeWidth="12" />
+                               <circle cx="50" cy="50" r="44" fill="none" stroke="#06b6d4" strokeWidth="12" strokeDasharray="276" strokeDashoffset={276 - (276 * progressPercent) / 100} strokeLinecap="round" className="transition-all duration-1000 ease-out" />
+                           </svg>
+                       </div>
+                       <h3 className="text-3xl font-bold text-white mb-3">Status da Missão</h3>
+                       <p className="text-slate-400 text-lg max-w-sm mb-10">Você está completando o protocolo {level}. Cada tarefa concluída é um passo a mais para a liberdade.</p>
+                       <button onClick={() => setActiveTab('agenda')} className="px-10 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full font-bold text-xl transition-all shadow-xl shadow-cyan-500/20 hover:scale-105">
+                           Continuar Missões
+                       </button>
+                   </GlassCard>
+
+                   <div className="grid grid-rows-2 gap-10">
+                       <GlassCard className="flex flex-col justify-center p-10 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center relative overflow-hidden group">
+                           <div className="absolute inset-0 bg-slate-950/80 group-hover:bg-slate-950/70 transition-all duration-500"></div>
+                           <div className="relative z-10">
+                               <h4 className="text-cyan-400 text-sm font-black uppercase tracking-widest mb-4">Próximo Passo</h4>
+                               <p className="text-4xl font-black text-white leading-tight">
+                                   {completedCount === 0 ? "Iniciar a Missão 01: Definição de Nicho" : "Revisar Métricas e Avançar para Próxima Fase"}
+                               </p>
+                               <button onClick={() => setActiveTab('agenda')} className="mt-8 text-white text-lg font-bold hover:text-cyan-400 flex items-center gap-3 w-max transition-colors">
+                                   Ir para Agenda <ChevronRight size={22} className="text-cyan-400"/>
+                               </button>
+                           </div>
+                       </GlassCard>
+                       <GlassCard className="bg-gradient-to-br from-slate-900 to-slate-950 border-white/10 flex flex-col justify-center p-10">
+                            <div className="flex items-center gap-4 mb-4">
+                               <Sparkles size={32} className="text-yellow-400"/>
+                               <h4 className="text-yellow-400 text-sm font-black uppercase tracking-widest">Mindset do Operador</h4>
+                            </div>
+                            <p className="text-slate-300 text-2xl italic leading-relaxed font-serif">"O segredo não é a velocidade, é a direção. Siga o protocolo sem pular etapas e o resultado será inevitável."</p>
+                       </GlassCard>
+                   </div>
+               </div>
             </div>
         )}
 
@@ -834,6 +887,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
           </div>
         )}
 
+        {/* ARSENAL NEXUS (TOOLKIT TAB) */}
         {activeTab === 'arsenal' && (
           <div className="grid gap-12 animate-fadeIn">
             {/* ... Conteúdo do Arsenal ... */}
@@ -841,7 +895,8 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 <h2 className="text-5xl font-black text-white mb-4">Arsenal Nexus</h2>
                 <p className="text-slate-400 text-xl">Ferramentas de elite para construir seu ecossistema. Selecionadas a dedo.</p>
             </header>
-            {/* DICA DE OURO */}
+
+            {/* DICA DE OURO EXPANDIDA E COMPLETA */}
             {level === 'iniciante' && (
                 <div className="rounded-3xl bg-gradient-to-br from-yellow-900/40 to-slate-900 border border-yellow-500/30 overflow-hidden shadow-2xl shadow-yellow-900/20">
                     <div className="bg-yellow-500/10 px-8 py-6 border-b border-yellow-500/20 flex items-center gap-4">
@@ -850,27 +905,33 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                     </div>
                     <div className="p-8 md:p-10 space-y-8">
                         <p className="text-slate-200 text-xl font-medium leading-relaxed">
-                            Muitas ferramentas abaixo são pagas, mas possuem testes gratuitos. Se você está sem caixa, utilize este protocolo:
+                            Muitas ferramentas abaixo são pagas, mas possuem testes gratuitos (Free Trial). Se você está sem caixa, utilize este protocolo para operar com custo zero até sua primeira venda:
                         </p>
+                        
                         <div className="grid gap-6 md:grid-cols-2">
                             <div className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
                                 <div className="p-3 bg-slate-800 rounded-lg text-cyan-400"><Mail size={24}/></div>
                                 <div>
                                     <h5 className="text-white font-bold text-lg mb-1">E-mails Infinitos</h5>
-                                    <p className="text-slate-400">Crie múltiplas contas de e-mail para aproveitar testes gratuitos (7/14 dias).</p>
+                                    <p className="text-slate-400">Crie múltiplas contas no Gmail ou Outlook. Use um e-mail novo para cada período de teste (7 ou 14 dias).</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
                                 <div className="p-3 bg-slate-800 rounded-lg text-cyan-400"><CreditCard size={24}/></div>
                                 <div>
                                     <h5 className="text-white font-bold text-lg mb-1">Cartão Virtual</h5>
-                                    <p className="text-slate-400">Use cartões virtuais temporários para evitar cobranças indesejadas pós-teste.</p>
+                                    <p className="text-slate-400">Use cartões virtuais do Nubank/Inter que podem ser bloqueados/apagados após o cadastro para evitar cobranças indesejadas.</p>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="bg-slate-950/50 p-6 rounded-xl border-l-4 border-yellow-500">
+                             <p className="text-slate-400 italic text-lg">"O empreendedor de guerrilha não reclama da falta de recursos; ele usa a criatividade como moeda. Use o sistema a seu favor."</p>
                         </div>
                     </div>
                 </div>
             )}
+
             {TOOLKIT_DATA.map(cat => (
               <div key={cat.id}>
                 <div className="flex items-center gap-5 mb-8">
@@ -890,39 +951,95 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
           </div>
         )}
 
+         {/* CONTACTS TAB */}
          {activeTab === 'contacts' && (
             <div className="animate-fadeIn max-w-5xl mx-auto pb-16">
-               <header className="mb-16 text-center md:text-left border-b border-white/10 pb-16">
-                  <h2 className="text-5xl font-black text-white mb-6">Central de Comando</h2>
-                  <p className="text-slate-400 text-2xl max-w-3xl leading-relaxed">
-                     Está travado em alguma etapa? Nossa equipe está pronta.
-                  </p>
-               </header>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                   <a href="https://wa.me/5524981073909" target="_blank" className="block h-full"><GlassCard hoverEffect={true} className="flex flex-col items-center justify-center py-20 gap-8 h-full border-green-500/30 hover:bg-green-950/20"><MessageCircle size={72} className="text-green-400"/><h3 className="text-4xl font-bold text-white">WhatsApp Oficial</h3></GlassCard></a>
-                   <a href="https://instagram.com/metodo_nexus" target="_blank" className="block h-full"><GlassCard hoverEffect={true} className="flex flex-col items-center justify-center py-20 gap-8 h-full border-pink-500/30 hover:bg-pink-950/20"><Instagram size={72} className="text-pink-400"/><h3 className="text-4xl font-bold text-white">Instagram</h3></GlassCard></a>
-               </div>
+              <header className="mb-16 text-center md:text-left border-b border-white/10 pb-16">
+                <h2 className="text-5xl font-black text-white mb-6">Central de Comando</h2>
+                <p className="text-slate-400 text-2xl max-w-3xl leading-relaxed">
+                  Está travado em alguma etapa ou precisa de uma análise tática? Nossa equipe de suporte está pronta.
+                </p>
+              </header>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <a href="https://wa.me/5524981073909" target="_blank" rel="noopener noreferrer" className="group block h-full">
+                  <GlassCard hoverEffect={true} className="flex flex-col items-center justify-center py-20 gap-8 h-full border-green-500/30 hover:bg-green-950/20 shadow-2xl shadow-green-900/10">
+                    <div className="p-8 bg-green-500/10 rounded-full text-green-400 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
+                      <MessageCircle size={72} />
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-4xl font-bold text-white group-hover:text-green-400 transition-colors mb-3">WhatsApp Oficial</h3>
+                      <p className="text-slate-400 text-xl font-mono">+55 24 98107-3909</p>
+                    </div>
+                    <span className="mt-8 px-10 py-4 rounded-full bg-green-500 text-black font-black text-lg group-hover:shadow-lg group-hover:shadow-green-500/30 transition-all transform group-hover:-translate-y-1">
+                      CHAMAR SUPORTE
+                    </span>
+                  </GlassCard>
+                </a>
+                <a href="https://instagram.com/metodo_nexus" target="_blank" rel="noopener noreferrer" className="group block h-full">
+                  <GlassCard hoverEffect={true} className="flex flex-col items-center justify-center py-20 gap-8 h-full border-pink-500/30 hover:bg-pink-950/20 shadow-2xl shadow-pink-900/10">
+                    <div className="p-8 bg-pink-500/10 rounded-full text-pink-400 group-hover:scale-110 transition-transform duration-300 border border-pink-500/20">
+                      <Instagram size={72} />
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-4xl font-bold text-white group-hover:text-pink-400 transition-colors mb-3">Instagram</h3>
+                      <p className="text-slate-400 text-xl">@metodo_nexus</p>
+                    </div>
+                    <span className="mt-8 px-10 py-4 rounded-full bg-pink-500 text-black font-black text-lg group-hover:shadow-lg group-hover:shadow-pink-500/30 transition-all transform group-hover:-translate-y-1">
+                      VER BASTIDORES
+                    </span>
+                  </GlassCard>
+                </a>
+              </div>
+              
+              <div className="mt-16 p-10 rounded-3xl bg-slate-800/50 border border-white/10 text-center shadow-xl">
+                <p className="text-cyan-400 text-xl font-bold tracking-widest uppercase flex items-center justify-center gap-4">
+                  <Zap size={24} className="animate-pulse"/> O atendimento é priorizado para membros ativos.
+                </p>
+              </div>
             </div>
-         )}
-         
-         {activeTab === 'legal' && (
+          )}
+
+           {/* LEGAL TAB */}
+           {activeTab === 'legal' && (
             <div className="animate-fadeIn max-w-5xl mx-auto pb-12">
                <h2 className="text-5xl font-black text-white mb-16">Termos & Privacidade</h2>
                <GlassCard className="p-12">
-                   <div className="text-slate-300 space-y-8 leading-relaxed text-xl">
-                       <p>Ao utilizar o Método Nexus, você concorda com nossos termos operacionais.</p>
+                   <div className="flex items-center gap-6 mb-10 border-b border-white/10 pb-10">
+                        <div className="p-6 bg-slate-800 rounded-2xl border border-white/10 text-cyan-400"><ShieldCheck size={48}/></div>
+                        <div>
+                             <h3 className="text-4xl font-bold text-white mb-2">Documentação Oficial</h3>
+                             <p className="text-slate-400 text-lg">Leia com atenção antes de prosseguir.</p>
+                        </div>
                    </div>
+                   
+                   <div className="text-slate-300 space-y-8 leading-relaxed text-xl">
+                       <p>Este produto é comercializado com garantia incondicional de satisfação por meio da plataforma de pagamentos segura. Nós prezamos pela transparência total.</p>
+                       <p>Os resultados podem variar de acordo com a dedicação e aplicação individual das estratégias. Não prometemos dinheiro fácil, prometemos um método validado.</p>
+                       <div className="p-6 bg-slate-950/50 rounded-xl border border-white/5 text-base text-slate-500 font-mono">
+                           © 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados. CNPJ e detalhes adicionais disponíveis na página de checkout.
+                       </div>
+                   </div>
+
                    <div className="mt-12 pt-10 border-t border-white/5">
-                        <a href="https://termos-protocolo-dominan-exayvin.gamma.site" target="_blank" className="inline-flex items-center gap-4 text-cyan-400 font-bold text-xl"><ExternalLink size={24}/> Ler Documentação Completa</a>
+                        <a 
+                           href="https://termos-protocolo-dominan-exayvin.gamma.site" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           className="inline-flex items-center gap-4 px-10 py-5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-400 hover:text-cyan-300 transition-all font-bold text-xl group w-full justify-center md:w-auto"
+                        >
+                           <ExternalLink size={24} className="group-hover:scale-110 transition-transform" />
+                           Ler Política de Privacidade & Termos
+                        </a>
                    </div>
                </GlassCard>
             </div>
-         )}
+           )}
 
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.2</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.4</p>
         </footer>
 
       </main>
