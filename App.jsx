@@ -6,8 +6,8 @@ import {
   Rocket, 
   BrainCircuit, 
   Target, 
-  ChevronRight,
-  ExternalLink,
+  ChevronRight, 
+  ExternalLink, 
   Zap, 
   CheckCircle2, 
   Menu, 
@@ -39,53 +39,41 @@ import {
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (CSS PURO, CORRIGIDO PARA MOBILE 200%) --- */
+/* --- ESTILOS GLOBAIS (CSS PURO E ESTÁVEL) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* CORREÇÃO MOBILE:
-       1. Removido 'background-attachment: fixed' (causa bugs no iOS/Android).
-       2. Adicionado 'background-size: 200% 200%' para esticar o gradiente e intensificar a cor.
-       3. Posicionamento 'top center' para garantir o foco da cor no topo.
-    */
+    /* BACKGROUNDS LINEARES (ESTÁVEIS NO MOBILE) */
     
+    /* Modo Iniciante: Azul no topo, descendo reto */
     .bg-nexus-blue {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.45) 0%, rgba(2, 6, 23, 1) 60%);
-      background-size: 200% 200%;
-      background-position: top center;
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 45%);
+      background-attachment: fixed;
     }
     
+    /* Modo Mestre: Roxo no topo, descendo reto e um pouco mais forte */
     .bg-nexus-purple {
-      background: linear-gradient(180deg, rgba(147, 51, 234, 0.55) 0%, rgba(2, 6, 23, 1) 60%);
-      background-size: 200% 200%;
-      background-position: top center;
+      background: linear-gradient(180deg, rgba(147, 51, 234, 0.45) 0%, rgba(2, 6, 23, 1) 55%);
+      background-attachment: fixed;
     }
 
+    /* Onboarding: Divisão diagonal suave Azul/Roxo */
     .bg-nexus-split {
-      /* Mistura Azul/Roxo suave */
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.4) 100%);
-      background-size: 200% 200%;
-      background-position: center center;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.3) 100%);
+      background-attachment: fixed;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes pulse-glow-cyan {
-      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); }
-      50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.8); transform: scale(1.05); }
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
     }
-    @keyframes pulse-glow-purple {
-      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); }
-      50% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.8); transform: scale(1.05); }
-    }
-    .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
-    .animate-pulse-glow-cyan { animation: pulse-glow-cyan 2s infinite; }
-    .animate-pulse-glow-purple { animation: pulse-glow-purple 2s infinite; }
     
-    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    /* Barras de rolagem personalizadas */
+    .custom-scrollbar::-webkit-scrollbar { width: 8px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
   `}</style>
 );
@@ -101,11 +89,11 @@ const useTheme = (level) => {
     text: isMaster ? 'text-purple-400' : 'text-cyan-400',
     textHover: isMaster ? 'group-hover:text-purple-300' : 'group-hover:text-cyan-300',
     button: isMaster ? 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20' : 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
-    pulse: isMaster ? 'animate-pulse-glow-purple' : 'animate-pulse-glow-cyan',
     iconColor: isMaster ? '#a855f7' : '#06b6d4', 
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
+    // Seleciona a classe CSS correta
     bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
   };
 };
@@ -483,7 +471,7 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO
+    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO - SEM OS BLOBS QUE BUGAVAM
     <div className="min-h-screen bg-nexus-split bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
@@ -604,7 +592,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
       <GlobalStyles />
       
       {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
-      <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
+      <div className={`fixed inset-0 w-full h-full pointer-events-none z-0 opacity-100 transition-colors duration-700`}></div>
       
       {/* SIDEBAR DESKTOP */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
@@ -631,7 +619,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.16.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.13.0 - Pro</span>
                 </div>
             </div>
 
@@ -1062,7 +1050,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.16</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.13</p>
         </footer>
 
       </main>
