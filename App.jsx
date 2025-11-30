@@ -39,18 +39,32 @@ import {
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS --- */
+/* --- ESTILOS GLOBAIS (CSS PURO, CORRIGIDO PARA MOBILE 200%) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* BACKGROUNDS OTIMIZADOS */
+    /* CORREÇÃO MOBILE:
+       1. Removido 'background-attachment: fixed' (causa bugs no iOS/Android).
+       2. Adicionado 'background-size: 200% 200%' para esticar o gradiente e intensificar a cor.
+       3. Posicionamento 'top center' para garantir o foco da cor no topo.
+    */
+    
     .bg-nexus-blue {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 45%);
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.45) 0%, rgba(2, 6, 23, 1) 60%);
+      background-size: 200% 200%;
+      background-position: top center;
     }
+    
     .bg-nexus-purple {
-      background: linear-gradient(180deg, rgba(147, 51, 234, 0.45) 0%, rgba(2, 6, 23, 1) 55%);
+      background: linear-gradient(180deg, rgba(147, 51, 234, 0.55) 0%, rgba(2, 6, 23, 1) 60%);
+      background-size: 200% 200%;
+      background-position: top center;
     }
+
     .bg-nexus-split {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 50%, rgba(147, 51, 234, 0.4) 100%);
+      /* Mistura Azul/Roxo suave */
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.4) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.4) 100%);
+      background-size: 200% 200%;
+      background-position: center center;
     }
 
     @keyframes fadeIn {
@@ -69,7 +83,6 @@ const GlobalStyles = () => (
     .animate-pulse-glow-cyan { animation: pulse-glow-cyan 2s infinite; }
     .animate-pulse-glow-purple { animation: pulse-glow-purple 2s infinite; }
     
-    /* Scrollbar Elegante */
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
@@ -253,17 +266,17 @@ const MidContentCTA = ({ theme }) => (
         <div className={`inline-block px-3 py-1 bg-${theme.primary}-500/20 text-${theme.primary}-400 text-xs font-black uppercase tracking-widest rounded mb-4`}>
           Atenção: Checkpoint Crítico
         </div>
-        <h3 className="text-2xl md:text-3xl font-black text-white mb-3 leading-tight">VOCÊ ESTÁ CAVANDO COM UMA COLHER</h3>
+        <h3 className="text-3xl font-black text-white mb-3 leading-tight">VOCÊ ESTÁ CAVANDO COM UMA COLHER</h3>
         <p className="text-slate-300 text-lg leading-relaxed">
-          Você sobreviveu até aqui na raça. Mas a diferença entre o amador e o profissional é a <strong>ferramenta</strong>.
+          Você sobreviveu até aqui na raça. Parabéns. Mas a diferença entre o amador e o profissional não é o esforço, é a <strong>ferramenta</strong>.
           <br/><br/>
-          Enquanto você gasta horas criando funis, a Elite usa nossos scripts validados. O <strong>Curso Nexus Black</strong> não é aula, é o código-fonte para escalar sem sangrar.
+          Enquanto você gasta horas criando funis, a Elite usa nossos scripts validados. O <strong>Curso Nexus Black</strong> não é aula, é o código-fonte para escalar sem sangrar. Pare de jogar no modo difícil.
         </p>
       </div>
       <a 
         href="https://nexusdigital.net.br" 
         target="_blank"
-        className={`shrink-0 bg-${theme.primary}-500 hover:bg-white text-black font-black text-lg px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all transform hover:scale-105 flex items-center gap-3 whitespace-nowrap mt-6 md:mt-0 w-full md:w-auto justify-center`}
+        className={`shrink-0 bg-${theme.primary}-500 hover:bg-white text-black font-black text-lg px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all transform hover:scale-105 flex items-center gap-3 whitespace-nowrap`}
       >
         ATIVAR MODO AUTOMÁTICO <Zap size={20} strokeWidth={3} fill="currentColor" />
       </a>
@@ -271,7 +284,7 @@ const MidContentCTA = ({ theme }) => (
   </div>
 );
 
-/* --- COMPONENTES VISUAIS PADRÃO --- */
+/* --- COMPONENTES VISUAIS PADRÃO (LOGO RESTAURADA) --- */
 const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
   const [error, setError] = useState(false);
   const t = theme || { primary: 'cyan', text: 'text-cyan-400' }; 
@@ -470,6 +483,7 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
+    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO
     <div className="min-h-screen bg-nexus-split bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
@@ -477,7 +491,7 @@ const OnboardingScreen = ({ onComplete }) => {
         {step === 0 ? (
            <>
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">DEFINA SEU ALVO</h1>
+              <h1 className="text-5xl font-black text-white tracking-tight">DEFINA SEU ALVO</h1>
               <p className="text-slate-400 text-xl">Em qual mercado você vai construir seu império?</p>
             </div>
             
@@ -585,11 +599,12 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative">
+    // USANDO A CLASSE CSS PURA PARA O BACKGROUND (FIXED)
+    <div className={`min-h-screen ${theme.bgClass} bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
       <GlobalStyles />
       
-      {/* BACKGROUND FIXO (CORREÇÃO PARA MOBILE) */}
-      <div className={`fixed inset-0 w-full h-full pointer-events-none z-0 opacity-100 transition-colors duration-700 ${theme.bgClass}`}></div>
+      {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
+      <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
       
       {/* SIDEBAR DESKTOP */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
@@ -616,7 +631,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.15.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.16.0 - Pro</span>
                 </div>
             </div>
 
@@ -649,8 +664,8 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         </div>
       )}
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1 md:ml-80 p-6 md:p-16 pt-32 md:pt-16 max-w-[1600px] mx-auto w-full relative z-10 pb-24">
+      {/* MAIN CONTENT - Z-10 PARA FICAR ACIMA DO BACKGROUND */}
+      <main className="flex-1 md:ml-80 p-6 md:p-16 pt-32 md:pt-16 max-w-[1600px] mx-auto w-full relative z-10">
         
         {/* HEADER STATS */}
         <div className="flex flex-col md:flex-row gap-10 items-start md:items-center justify-between mb-16">
@@ -1047,7 +1062,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.15</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.16</p>
         </footer>
 
       </main>
