@@ -6,8 +6,8 @@ import {
   Rocket, 
   BrainCircuit, 
   Target, 
-  ChevronRight, 
-  ExternalLink, 
+  ChevronRight,
+  ExternalLink,
   Zap, 
   CheckCircle2, 
   Menu, 
@@ -36,49 +36,51 @@ import {
   RefreshCw, 
   Server, 
   BookOpen, 
+  ShoppingCart, 
   Unlock 
 } from 'lucide-react';
 
-/* --- ESTILOS GLOBAIS (CSS PURO E ESTÁVEL) --- */
+/* --- ESTILOS GLOBAIS (ANIMAÇÕES) --- */
 const GlobalStyles = () => (
   <style>{`
-    /* BACKGROUNDS LINEARES (ESTÁVEIS NO MOBILE) */
-    
-    /* Modo Iniciante: Azul no topo, descendo reto */
-    .bg-nexus-blue {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.35) 0%, rgba(2, 6, 23, 1) 45%);
-      background-attachment: fixed;
-    }
-    
-    /* Modo Mestre: Roxo no topo, descendo reto e um pouco mais forte */
-    .bg-nexus-purple {
-      background: linear-gradient(180deg, rgba(147, 51, 234, 0.45) 0%, rgba(2, 6, 23, 1) 55%);
-      background-attachment: fixed;
-    }
-
-    /* Onboarding: Divisão diagonal suave Azul/Roxo */
-    .bg-nexus-split {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(2, 6, 23, 1) 45%, rgba(2, 6, 23, 1) 55%, rgba(147, 51, 234, 0.3) 100%);
-      background-attachment: fixed;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse-glow-cyan {
+      0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); transform: scale(1); opacity: 0.6; }
+      50% { box-shadow: 0 0 35px rgba(6, 182, 212, 0.9); transform: scale(1.1); opacity: 0.8; }
+    }
+    @keyframes pulse-glow-purple {
+      0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1); opacity: 0.6; }
+      50% { box-shadow: 0 0 35px rgba(168, 85, 247, 0.9); transform: scale(1.1); opacity: 0.8; }
+    }
     .animate-fadeIn {
       animation: fadeIn 0.5s ease-out forwards;
     }
-    
-    /* Barras de rolagem personalizadas */
-    .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .animate-pulse-glow-cyan {
+      animation: pulse-glow-cyan 3s infinite;
+    }
+    .animate-pulse-glow-purple {
+      animation: pulse-glow-purple 3s infinite;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a; 
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155; 
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569; 
+    }
   `}</style>
 );
 
-/* --- HELPER DE TEMA --- */
+/* --- HELPER DE TEMA (COR DINÂMICA + BACKGROUND FIXO) --- */
 const useTheme = (level) => {
   const isMaster = level === 'mestre';
   return {
@@ -89,12 +91,15 @@ const useTheme = (level) => {
     text: isMaster ? 'text-purple-400' : 'text-cyan-400',
     textHover: isMaster ? 'group-hover:text-purple-300' : 'group-hover:text-cyan-300',
     button: isMaster ? 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20' : 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
+    pulse: isMaster ? 'animate-pulse-glow-purple' : 'animate-pulse-glow-cyan',
     iconColor: isMaster ? '#a855f7' : '#06b6d4', 
     gradient: isMaster ? 'from-purple-600 to-pink-600' : 'from-cyan-600 to-blue-600',
     logoText: isMaster ? 'text-purple-500' : 'text-cyan-400',
     activeTab: isMaster ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-    // Seleciona a classe CSS correta
-    bgClass: isMaster ? 'bg-nexus-purple' : 'bg-nexus-blue'
+    // Background mais intenso e "lavado" para mobile, usando fixed positioning no componente
+    bgGradient: isMaster 
+      ? 'from-fuchsia-900/40 via-purple-950 to-slate-950' 
+      : 'from-cyan-800/40 via-blue-950 to-slate-950'
   };
 };
 
@@ -147,7 +152,7 @@ const TOOLKIT_DATA = [
       { name: 'Cakto', desc: 'Design limpo e foco em conversão.', url: 'https://cakto.com.br', tag: 'Simples', color: 'text-pink-400' },
       { name: 'Kirvano', desc: 'Taxas agressivas e boa aprovação.', url: 'https://kirvano.com', tag: 'Nova', color: 'text-purple-400' },
       { name: 'Hotmart', desc: 'Líder global, robusta para afiliados.', url: 'https://hotmart.com', tag: 'Global', color: 'text-orange-500' },
-      { name: 'Eduzz', desc: 'Integração sólida para infoprodutos.', url: 'https://eduzz.com', tag: 'Clássica', color: 'text-yellow-500' }, 
+      { name: 'Eduzz', desc: 'Integração sólida para infoprodutos.', url: 'https://eduzz.com', tag: 'Clássica', color: 'text-yellow-500' },
     ] 
   }
 ];
@@ -243,6 +248,38 @@ const MISSIONS_DATA = {
   }
 };
 
+/* --- NOVO COMPONENTE: BOTÃO FLUTUANTE (COM TIMER E TEXTO AJUSTADO) --- */
+const StickyBuyButton = ({ theme }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    // Configura o timer para 3 segundos (3000ms)
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
+
+    // Limpa o timer se o componente for desmontado
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <a 
+      href="https://nexusdigital.net.br" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={`fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-${theme.primary}-500 hover:bg-${theme.primary}-400 text-black px-6 py-4 rounded-full font-black shadow-[0_0_25px_rgba(0,0,0,0.5)] ${theme.pulse} transition-all duration-1000 ease-in-out group md:bottom-10 md:right-10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}
+    >
+      <div className="bg-black/10 p-2 rounded-full">
+        <ShoppingCart size={24} className="text-black group-hover:text-white transition-colors"/>
+      </div>
+      <div className="flex flex-col items-start leading-none">
+        <span className="text-[10px] uppercase font-bold opacity-80 mb-0.5">Oportunidade</span>
+        <span className="text-lg tracking-tight">LIBERAR GUIAS E CURSOS</span>
+      </div>
+    </a>
+  );
+};
+
 /* --- COMPONENTE: CTA INTERMEDIÁRIA (PERSUASIVA) --- */
 const MidContentCTA = ({ theme }) => (
   <div className={`my-12 relative overflow-hidden rounded-2xl border ${theme.border}/30 bg-gradient-to-r from-slate-900 via-${theme.primary}-950/20 to-slate-900 shadow-2xl`}>
@@ -288,6 +325,7 @@ const NexusLogo = ({ className = "h-12", showText = true, theme }) => {
         />
       ) : (
         <div className="flex items-center">
+            {/* LOGO 'N' ESTILIZADA SVG */}
             <div className={`relative w-12 h-12 flex items-center justify-center bg-gradient-to-br from-${t.primary}-600 to-${t.primary}-800 rounded-lg shadow-lg border border-white/10 mr-3`}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -471,8 +509,17 @@ const OnboardingScreen = ({ onComplete }) => {
   };
 
   return (
-    // ONBOARDING COM O FUNDO "SPLIT" (AZUL/ROXO) FIXO - SEM OS BLOBS QUE BUGAVAM
-    <div className="min-h-screen bg-nexus-split bg-cover flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    // ONBOARDING COM DUPLO HOLOFOTE (AZUL ESQUERDA / ROXO DIREITA)
+    // FIX MOBILE: Aumentei drasticamente o tamanho das luzes para cobrir a tela no celular
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+          {/* LUZ CYAN (ESQUERDA SUPERIOR) */}
+          <div className="absolute top-[-20%] left-[-50%] md:top-[-10%] md:left-[-20%] w-[200%] md:w-[80%] h-[50%] md:h-[80%] rounded-full bg-cyan-600/20 blur-[100px] md:blur-[120px] animate-pulse-glow-cyan" />
+          
+          {/* LUZ ROXA (DIREITA INFERIOR) */}
+          <div className="absolute bottom-[-20%] right-[-50%] md:bottom-[-10%] md:right-[-20%] w-[200%] md:w-[80%] h-[50%] md:h-[80%] rounded-full bg-purple-600/20 blur-[100px] md:blur-[120px] animate-pulse-glow-purple" />
+      </div>
+
       <div className="w-full max-w-lg space-y-10 text-center relative z-10">
         <NexusLogo className="justify-center scale-150 mb-16 h-40" />
         
@@ -587,14 +634,15 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
   );
 
   return (
-    // USANDO A CLASSE CSS PURA PARA O BACKGROUND (FIXED)
-    <div className={`min-h-screen ${theme.bgClass} bg-cover flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative`}>
+    <div className="min-h-screen bg-slate-950 flex text-slate-200 font-sans selection:bg-cyan-500/30 transition-all duration-700 relative">
       <GlobalStyles />
       
       {/* BACKGROUND FIXO PARA O DASHBOARD (FIX MOBILE) */}
-      <div className={`fixed inset-0 w-full h-full pointer-events-none z-0 opacity-100 transition-colors duration-700`}></div>
+      <div className={`fixed inset-0 w-full h-full pointer-events-none bg-gradient-to-br ${theme.bgGradient} z-0 opacity-100 transition-colors duration-700`}></div>
+
+      <StickyBuyButton theme={theme} /> 
       
-      {/* SIDEBAR DESKTOP */}
+      {/* SIDEBAR DESKTOP (Z-50 PARA FICAR ACIMA DO BACKGROUND) */}
       <aside className="hidden md:flex w-80 flex-col border-r border-white/5 bg-slate-950/50 backdrop-blur-xl h-screen fixed left-0 top-0 z-50 p-8">
         <div className="mb-14 mt-6 flex justify-center transform hover:scale-105 transition-transform duration-300">
             <NexusLogo className="h-32" theme={theme} />
@@ -619,7 +667,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
                 </div>
                 <div className="flex items-center gap-3">
                     <RefreshCw size={16} className="text-blue-500"/>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.13.0 - Pro</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">v11.10.0 - Pro</span>
                 </div>
             </div>
 
@@ -652,7 +700,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         </div>
       )}
 
-      {/* MAIN CONTENT - Z-10 PARA FICAR ACIMA DO BACKGROUND */}
+      {/* MAIN CONTENT - Z-10 PARA FICAR ACIMA DO BACKGROUND FIXO */}
       <main className="flex-1 md:ml-80 p-6 md:p-16 pt-32 md:pt-16 max-w-[1600px] mx-auto w-full relative z-10">
         
         {/* HEADER STATS */}
@@ -1050,7 +1098,7 @@ const Dashboard = ({ niche, completedTasks = [], onTaskToggle, xp, level, resetA
         {/* FOOTER */}
         <footer className="mt-24 pt-12 border-t border-white/5 text-center text-slate-500 text-base pb-12 font-medium">
           <p className="mb-2">© 2025 Arthur Furtado Silva/Nexus Digital. Todos os direitos reservados.</p>
-          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.13</p>
+          <p className="text-sm opacity-60">Sistema Operacional Nexus v11.10</p>
         </footer>
 
       </main>
